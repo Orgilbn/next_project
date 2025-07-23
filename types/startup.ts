@@ -6,8 +6,12 @@ export type StartupCardType = {
   image: string;
   category: string;
   views: number;
-  author?: {
+  author: {
     _id: string;
     name: string;
+    username: string;
+    image: string;
+    email: string;
+    bio: string;
   };
 };

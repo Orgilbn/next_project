@@ -28,9 +28,9 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
                 <h3 className="text-26-semibold">{post.title}</h3>
             </Link>
         </div>
-        <Link href={`/user/${post.author?._id}`}>
-            <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWxlyOawWbV241ktPfoIXKQ8iTffGS2Q8DFg&s" alt="placeholder" 
-            width={48} height={48} className="rounded-full" />
+        <Link href={`/user/${post.author._id}`}>
+            <Image src={post.author.image} alt="placeholder" 
+            width={48} height={48} className="rounded-full w-16 h-16" />
         </Link>
        
       </div>
@@ -43,7 +43,7 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
                 <p className="text-16-medium">{post.category}</p>
             </Link>
             <Button className="startup-card-btn"  asChild>
-                <Link href={`/startup/${post._id}`}>View Startup</Link>
+                <Link href={`/startup/${post._id}`}>Details</Link>
             </Button>
         </div>
     </li>

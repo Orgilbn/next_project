@@ -8,8 +8,13 @@ const nextConfig = {
     ]
   },
   experimental: {
+    ppr: "incremental",
     serverActions: {},
+    after: true,
   },
+  devIndicators: {
+    position: 'bottom-right',
+  }
 };
 
 module.exports = nextConfig;

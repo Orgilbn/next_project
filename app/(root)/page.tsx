@@ -1,24 +1,20 @@
 import { StartupCardType } from "@/types/startup";
 import SearchForm from "../../components/SearchForm";
 import StartupCard from "@/components/StartupCard";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { auth } from "@/auth";
 
 export default async function Home({ searchParams }: { searchParams: { query?: string } }) {
   const query = (await searchParams).query;
-  const posts = [
-    {
-      _createdAt: new Date(),
-      views: 55,
-      _id: "1",
-      title: "Orgiliin super shit",
-      description: "Hutsalgui aljaa hii",
-      image: "https://images.squarespace-cdn.com/content/v1/6150da9bc04b0a138b3c0600/1634528500503-V7KPRTKGCRB73IY6IKB9/Stone-Circle.jpg",
-      category: "Tech",
-      author: {
-        _id: "1",
-        name: "Boojgoi"
-    }}
-  ];
+  const params = { search: query || null };
+
+  const session = await auth();
+  console.log(session?.id)
+  const {data: posts} = await sanityFetch({query: STARTUPS_QUERY, params});
+
   return (
+    <>
     <div>
       <section className="pink-container pattern">
         <h1 className="heading">Pitch your Startup<br/>Connect with Entrepreneurs</h1>
@@ -40,5 +36,7 @@ export default async function Home({ searchParams }: { searchParams: { query?: s
         </ul>
       </section>
     </div>
+    <SanityLive />
+    </>
   );
 }
