@@ -72,7 +72,6 @@ const Page = async ({params} : {params: Promise<{ id: string }>}) => {
           <View id={id}/>
       </Suspense>
     </>
-    
   );
 }
 
