@@ -12,6 +12,7 @@ import { Send } from 'lucide-react';
 import { formSchema } from '@/lib/validation';
 import z from 'zod';
 import { toast } from 'sonner';
+import { createPitch } from '@/lib/actions';
 
 const StartupForm = () => {
   const [errors, setErrors] = React.useState<Record<string, string>>({});
@@ -23,26 +24,27 @@ const StartupForm = () => {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       category: formData.get("category") as string,
-      link: formData.get("link") as string,
+      image: formData.get("image") as string,
       pitch
     }
     
     try{
       await formSchema.parseAsync(formValues);
-      console.log(formValues);
       
       // Clear errors on successful validation
       setErrors({});
       
-      // const result = await createIdea(prevState, formData, pitch);
-      // console.log(result)
-      // if(result.status === "SUCCESS"){
-      //   toast.success("Your startup idea has been submitted successfully!");
-      //   router.push(`/startup/${result.id}`);
-      // }
-      // return result;
+      const result = await createPitch(prevState, formData, pitch);
+      console.log("Result from createPitch:", result);
       
-      return { status: "SUCCESS" };
+      if(result.status === "SUCCESS"){
+        toast.success("Your startup idea has been submitted successfully!");
+        router.push(`/startup/${result._id}`);
+      } else {
+        toast.error(result.error || "Failed to create startup");
+      }
+
+      return result;
     }catch(error){
       if(error instanceof z.ZodError){
         const fieldErrors = error.flatten().fieldErrors;
@@ -55,7 +57,7 @@ const StartupForm = () => {
           title: formValues.title,
           description: formValues.description,
           category: formValues.category,
-          link: formValues.link,
+          image: formValues.image,
           error: "Validation failed", 
           status: "ERROR" 
         };
@@ -114,16 +116,16 @@ const StartupForm = () => {
         {errors.category && <p className='startup-form-error'>{errors.category}</p>}
       </div>
       <div>
-        <label htmlFor='link' className='startup-form-label'>Image URL</label>
+        <label htmlFor='image' className='startup-form-label'>Image URL</label>
         <Input 
-          id='link' 
-          name='link' 
+          id='image' 
+          name='image' 
           className='startup-form-input' 
           required 
           placeholder='Startup Image URL'
-          defaultValue={state?.link || ""}
+          defaultValue={state?.image || ""}
         />
-        {errors.link && <p className='startup-form-error'>{errors.link}</p>}
+        {errors.image && <p className='startup-form-error'>{errors.image}</p>}
       </div>
       <div data-color-mode='light'>
         <label htmlFor='pitch' className='startup-form-label'>Pitch</label>

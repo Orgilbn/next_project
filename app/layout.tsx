@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import 'easymde/dist/easymde.min.css';
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const workSans = localFont({
   src: [
