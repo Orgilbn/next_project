@@ -33,7 +33,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const existingUser = await client.withConfig({useCdn: false}).fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
           githubId: githubProfile.id,
         });
-        console.log("GitHub ID:", githubProfile.id, "Existing user:", existingUser);
 
         if (!existingUser) {
           await writeClient.create({

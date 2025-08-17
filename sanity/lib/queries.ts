@@ -39,7 +39,16 @@ export const STARTUP_VIEWS_QUERY = defineQuery(`
   }
 `);
 
-export const AUTHOR_BY_GITHUB_ID_QUERY = `*[_type == "author" && string(githubId) == string($githubId)][0]{
+export const AUTHOR_BY_GITHUB_ID_QUERY = `*[_type == "author" && githubId == $githubId][0]{
+  _id,
+  name,
+  username,
+  email,
+  image,
+  bio
+}`;
+
+export const AUTHOR_BY_ID_QUERY = `*[_type == "author" && string(_id) == string($id)][0]{
   _id,
   name,
   username,

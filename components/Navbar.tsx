@@ -1,8 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth, signOut, signIn } from "@/auth";
+import { client } from "@/sanity/lib/client";
+
 const NavBar = async () => {
     const session = await auth();
+    
+    let githubId = null;
+    if (session?.id) {
+        // Get the GitHub ID from the user document
+        const user = await client.fetch(`*[_type == "author" && _id == $id][0]{ githubId }`, { id: session.id });
+        githubId = user?.githubId;
+    }
   return (
     <nav>
       <header className="px-5 py-3 bg-white shadow-md">
@@ -28,7 +37,7 @@ const NavBar = async () => {
                             <button type="submit">Logout</button>
                         </form>
                         <span>{session?.user?.name}</span>
-                        <Link href={`/user/${session?.user?.id}`}>
+                        <Link href={`/user/${githubId}`}>
                             <span>{session?.user?.name}</span>
                         </Link>
                     </>
